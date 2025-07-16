@@ -1,6 +1,6 @@
 <?php
 
-function getUsers($pdo, $limitDay,$minAmount)
+function getUsers($pdo, $limitDay, $minAmount, $searchName = '')
 {
     $query = "
         SELECT 
@@ -10,6 +10,7 @@ function getUsers($pdo, $limitDay,$minAmount)
             COUNT(o.id) AS orders_count,
             COALESCE(SUM(o.amount), 0) AS total_amount
         FROM users u
+        WHERE u.name LIKE $searchName.'%' 
         LEFT JOIN orders o ON u.id = o.user_id
     ";
 
